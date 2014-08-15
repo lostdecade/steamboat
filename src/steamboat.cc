@@ -10,10 +10,20 @@ NAN_METHOD(SteamInit) {
 	NanReturnValue(NanNew<v8::Boolean>(success));
 }
 
+NAN_METHOD(SteamShutdown) {
+	NanScope();
+
+	SteamAPI_Shutdown();
+}
+
 void Init(v8::Handle<v8::Object> exports) {
 	exports->Set(
 		NanNew<v8::String>("init"),
 		NanNew<v8::FunctionTemplate>(SteamInit)->GetFunction()
+	);
+	exports->Set(
+		NanNew<v8::String>("shutdown"),
+		NanNew<v8::FunctionTemplate>(SteamShutdown)->GetFunction()
 	);
 }
 
