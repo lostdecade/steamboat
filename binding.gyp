@@ -1,20 +1,22 @@
 {
 	"variables": {
-		"redist_base_path": "$(CURDIR)/../lib/steamworks/redistributable_bin/"
+		"redist_path": "lib/steamworks/redistributable_bin/"
 	},
 	"conditions": [
 		['OS=="win"', {
 			"variables": {
 				"module_suffix": "win32",
 				"redist_os_path": "",
-				"redist_lib": "steam_api.lib"
+				"redist_lib": "steam_api.lib",
+				"base_path": "$(CURDIR)../"
 			}
 		}],
 		['OS=="mac"', {
 			"variables": {
 				"module_suffix": "osx32",
 				"redist_os_path": "osx32/",
-				"redist_lib": "libsteam_api.dylib"
+				"redist_lib": "libsteam_api.dylib",
+				"base_path": "$(CURDIR)/../"
 			}
 		}]
 	],
@@ -29,10 +31,10 @@
 			],
 			"link_settings": {
 				"ldflags": [
-					"-L<(redist_base_path)<(redist_os_path)"
+					"-L<(base_path)<(redist_path)<(redist_os_path)"
 				],
 				"libraries": [
-					"<(redist_base_path)<(redist_os_path)<(redist_lib)"
+					"<(base_path)<(redist_path)<(redist_os_path)<(redist_lib)"
 				]
 			}
 		}
