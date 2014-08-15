@@ -29,6 +29,10 @@
 			"include_dirs": [
 				"<!(node -e \"require('nan')\")"
 			],
+			"cflags!": ["-fexceptions", "-m32"],
+			"cflags_cc!": ["-fno-exceptions", "-m32"],
+			"CXXFLAGS!": ["-m32"],
+			"LDFLAGS!": ["-m32"],
 			"link_settings": {
 				"ldflags": [
 					"-L<(base_path)<(redist_path)<(redist_os_path)"
