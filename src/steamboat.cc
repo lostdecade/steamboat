@@ -2,12 +2,15 @@
 #include <nan.h>
 #include "../lib/steamworks/public/steam/steam_api.h"
 
+using namespace std;
+using namespace v8;
+
 NAN_METHOD(SteamInit) {
 	NanScope();
 
 	bool success = SteamAPI_Init();
 
-	NanReturnValue(NanNew<v8::Boolean>(success));
+	NanReturnValue(NanNew<Boolean>(success));
 }
 
 NAN_METHOD(SteamShutdown) {
@@ -16,14 +19,32 @@ NAN_METHOD(SteamShutdown) {
 	SteamAPI_Shutdown();
 }
 
-void Init(v8::Handle<v8::Object> exports) {
+NAN_METHOD(SteamSetAchievement) {
+	NanScope();
+
+	string achievementId(*NanUtf8String(args[0]));
+
+	ISteamUserStats *userStats = SteamUserStats();
+	bool success = userStats->SetAchievement(achievementId.c_str());
+	if (success) {
+		userStats->StoreStats();
+	}
+
+	NanReturnValue(NanNew<Boolean>(success));
+}
+
+void Init(Handle<Object> exports) {
 	exports->Set(
-		NanNew<v8::String>("init"),
-		NanNew<v8::FunctionTemplate>(SteamInit)->GetFunction()
+		NanNew<String>("init"),
+		NanNew<FunctionTemplate>(SteamInit)->GetFunction()
 	);
 	exports->Set(
-		NanNew<v8::String>("shutdown"),
-		NanNew<v8::FunctionTemplate>(SteamShutdown)->GetFunction()
+		NanNew<String>("shutdown"),
+		NanNew<FunctionTemplate>(SteamShutdown)->GetFunction()
+	);
+	exports->Set(
+		NanNew<String>("setAchievement"),
+		NanNew<FunctionTemplate>(SteamSetAchievement)->GetFunction()
 	);
 }
 
