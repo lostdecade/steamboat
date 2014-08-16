@@ -49,6 +49,29 @@ Call when your app is shutting down.
 steamboat.shutdown();
 ```
 
+### isGameOverlayEnabled()
+
+Returns true/false if the Steam overlay is enabled/disabled.
+
+```
+var enabled = steamboat.isGameOverlayEnabled();
+```
+
+### activateGameOverlay(dialogId)
+
+Triggers the Steam overlay to display the specified dialog. Possible dialog values are:
+
+* Friends
+* Community
+* Players
+* Settings
+* OfficialGameGroup
+* Achievements
+
+```
+steamboat.activateGameOverlay("Achievements");
+```
+
 ### setAchievement(achievementId)
 
 ```

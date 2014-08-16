@@ -19,6 +19,19 @@ NAN_METHOD(SteamShutdown) {
 	SteamAPI_Shutdown();
 }
 
+NAN_METHOD(SteamIsOverlayEnabled) {
+	NanScope();
+	bool enabled = SteamUtils()->IsOverlayEnabled();
+	NanReturnValue(NanNew<Boolean>(enabled));
+}
+
+NAN_METHOD(SteamActivateGameOverlay) {
+	NanScope();
+
+	string dialogId(*NanUtf8String(args[0]));
+	SteamFriends()->ActivateGameOverlay(dialogId.c_str());
+}
+
 NAN_METHOD(SteamSetAchievement) {
 	NanScope();
 
@@ -34,6 +47,7 @@ NAN_METHOD(SteamSetAchievement) {
 }
 
 void Init(Handle<Object> exports) {
+	// Core
 	exports->Set(
 		NanNew<String>("init"),
 		NanNew<FunctionTemplate>(SteamInit)->GetFunction()
@@ -42,6 +56,18 @@ void Init(Handle<Object> exports) {
 		NanNew<String>("shutdown"),
 		NanNew<FunctionTemplate>(SteamShutdown)->GetFunction()
 	);
+
+	// Overlay
+	exports->Set(
+		NanNew<String>("isGameOverlayEnabled"),
+		NanNew<FunctionTemplate>(SteamIsOverlayEnabled)->GetFunction()
+	);
+	exports->Set(
+		NanNew<String>("activateGameOverlay"),
+		NanNew<FunctionTemplate>(SteamActivateGameOverlay)->GetFunction()
+	);
+
+	// Achievements
 	exports->Set(
 		NanNew<String>("setAchievement"),
 		NanNew<FunctionTemplate>(SteamSetAchievement)->GetFunction()
