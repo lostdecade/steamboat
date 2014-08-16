@@ -31,6 +31,20 @@ node-webkit requires its own build tool, [nw-gyp][7]. With nw-gyp, the target ve
 nw-gyp rebuild --arch=ia32 --target=0.10.2
 ```
 
+### Building for Atom Shell
+
+Atom Shell also [requires some special tweaks][9] in order to properly build native modules. The development headers must be fetched from a different location. This can be done by using the `--dist-url` paramter:
+
+```
+node-gyp rebuild --arch=ia32 --target=0.11.13 --dist-url=https://gh-contractor-zcbenz.s3.amazonaws.com/atom-shell/dist
+```
+
+If the previous files for a specific version have already been fetched from the default location, you'll need to remove them first:
+
+```
+node-gyp remove 0.11.13
+```
+
 ## API
 
 ### init()
@@ -87,3 +101,4 @@ steamboat.setAchievement("perfectScore");
 [6]: https://github.com/TooTallNate/node-gyp
 [7]: https://github.com/rogerwang/nw-gyp
 [8]: https://github.com/TooTallNate/node-gyp#installation
+[9]: https://github.com/atom/atom-shell/blob/master/docs/tutorial/use-native-node-modules.md
