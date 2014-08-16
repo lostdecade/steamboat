@@ -8,10 +8,11 @@ Based on [Native Abstractions for Node.js][3] for maximum compatiblity with vari
 
 ## Setup
 
-* Download Steamworks SDK
-* Copy or symlink to lib/steamworks
-* DON'T commit Steamworks SDK files :)
-* Run `npm install`
+First and foremost, you'll need to have access to the Steamworks SDK. Download the SDK from Valve and either copy or symlink it to `lib/steamworks` at the root of Steamboat. To be clear: the `lib` folder should be a sibling to `src`.
+
+Don't commit the Steamworks SDK files to source control or distribute them with your game. You'll only need to ship a few specific files from the `redistributable_bin` folder which we'll cover later.
+
+Lastly, run `npm install` at the root in order to pull in the Node.js dependencies.
 
 ## Build
 
@@ -44,6 +45,11 @@ If the previous files for a specific version have already been fetched from the 
 ```
 node-gyp remove 0.11.13
 ```
+
+## Distribution
+
+TODO: Which Steam redist libs to ship and where
+TODO: Where to put steam_appid.txt for node-webkit and Atom Shell
 
 ## API
 
